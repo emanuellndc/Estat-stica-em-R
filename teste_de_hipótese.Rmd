@@ -1,0 +1,130 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Emanuel Lucas Nunes de Carvalho
+
+
+E.1
+
+```{r}
+Ic_media_Conhecida_valores <- function(x_barra,n,sigma,confianca){
+  IC_inf = x_barra - qnorm((1-confianca)/2, lower.tail = F)*(sigma/sqrt(n))
+  IC_sup = x_barra + qnorm((1-confianca)/2, lower.tail = F)*(sigma/sqrt(n))
+  saida <- cbind(IC_inf,IC_sup)
+  saida
+}
+
+Ic_media_Conhecida_valores(18.5,50,6,0.91)
+
+
+```
+
+```{r}
+Ic_media_Conhecida_valores(18.5,50,6,0.96)
+```
+
+```{r}
+Ic_media_Conhecida_valores(18.5,50,6,0.99)
+```
+
+
+b)
+
+```{r}
+Ic_media_Conhecida_valores(18.5,25,6,0.94)
+```
+
+
+```{r}
+Ic_media_Conhecida_valores(18.5,50,6,0.94)
+```
+
+```{r}
+Ic_media_Conhecida_valores(18.5,100,6,0.94)
+```
+ 
+
+E.3 
+a)
+
+
+```{r}
+p = 60/100
+n = ((0.4)*0.6*0.4)/(0.05^2)
+n
+```
+
+b)
+```{r}
+p=51/1.536
+p
+```
+
+E.5 
+a)
+
+```{r}
+teste_var <- function(desvio, n, sigma, confianca, H_1 = c(igual, menor, maior)){
+  qobs <- ((n-1)*desvio^2)/sigma^2
+  if(H_1 =='menor'){
+    valor_p - pchisq(qobs, n-1, lower.tail = T)
+  }else if (H_1 =="maior"){
+    valor_p = pchisq(qobs, n-1, lower.tail = F)
+  }else
+    valor_p = 2*min(c(pchisq(qobs, n-1, lower.tail = T), pchisq(qobs, n-1, lower.tail = F)))
+  Ic_inf <- ((n-1)*desvio^2)/qchisq(1-(1-confianca)/2, n-1)
+  IC_sup <- ((n-1)*desvio^2)/qchisq((1-confianca)/2, n-1)
+  saida <- cbind(n, desvio, sigma, qobs, valor_p, Ic_inf, IC_sup)
+  saida
+}
+
+teste_var(4.8, 10, sqrt(18), .95, "igual")
+
+```
+
+
+b)
+
+```{r}
+teste_var <- function(desvio, n, sigma, confianca, H_1 = c(igual, menor, maior)){
+  qobs <- ((n-1)*desvio^2)/sigma^2
+  if(H_1 =='menor'){
+    valor_p - pchisq(qobs, n-1, lower.tail = T)
+  }else if (H_1 =="maior"){
+    valor_p = pchisq(qobs, n-1, lower.tail = F)
+  }else
+    valor_p = 2*min(c(pchisq(qobs, n-1, lower.tail = T), pchisq(qobs, n-1, lower.tail = F)))
+  Ic_inf <- ((n-1)*desvio^2)/qchisq(1-(1-confianca)/2, n-1)
+  IC_sup <- ((n-1)*desvio^2)/qchisq((1-confianca)/2, n-1)
+  saida <- cbind(n, desvio, sigma, qobs, valor_p, Ic_inf, IC_sup)
+  saida
+}
+
+teste_var(4.8, 10, sqrt(18), .95, "igual")
+
+xxx <-teste_var(4.8, 10, sqrt(18), .95, "igual")
+sqrt(xxx[,6]);sqrt(xxx[,7])
+```
+
+
+
+E.6
+
+```{r}
+library("BSDA")
+tsum.test(9.3,2,40,mu=10,alternative = 'less',conf.level = .98)
+
+```
+Regeita a hipotese nula pois p-valor 0.01639, como a média foi 9.971902. Ou seja, menor que 10.
+
+E.7
+
+```{r}
+
+prop.test(18,50,p=.3,alternative = 'greater', correct = F)
+prop.test(18,50,p=.3,alternative = 'greater', correct = T)
+```
+Resposta: Não regeita a hipotese nula.Teste de proporção. Não usaria o capacete.
+
