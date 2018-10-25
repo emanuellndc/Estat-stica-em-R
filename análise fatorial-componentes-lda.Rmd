@@ -9,9 +9,9 @@ install.packages('GPArotation')
 library(psych)
 library(GPArotation)
 ```
-# Quando a linha azul toca a linha vermelha, é o ponto que devemos utilizar para a escolha no númerro de fatores. No caso iremos utilizar 3 fatores.
+# Quando a linha azul toca a linha vermelha, Ã© o ponto que devemos utilizar para a escolha no nÃºmerro de fatores. No caso iremos utilizar 3 fatores.
 ```{r}
-parallel <- fa.parallel(Home, fm = 'pa', fa = 'fa') #escolha do número de fatores
+parallel <- fa.parallel(Home, fm = 'pa', fa = 'fa') #escolha do nÃºmero de fatores
 tresfatores <- fa(Home, nfactors = 3, rotate = "oblimin", fm="pa")
 tresfatores
 ```
@@ -19,7 +19,7 @@ tresfatores
 ```{r}
 print(tresfatores$loadings, cutoff = .3)
 ```
-# Analisando o gráfico Factor Analysis, é possivel observar que as questões q1, q3 e Q5 representa o primeiro PA1, são as pessoas caseiras  q1-Eu prefiro passar uma noite calma e tranquila em casa do que sair para ir a umafesta; q3-A internet é mais interessante que cinemas Q5: Eu gosto mesmo é de ficar em casa. A questão 1 tem um peso de 0.9 para determinar se ele pertence ao PA1, a questão 3 tem peso de 0.8 e a questão 5 tem 0.7. . O PA2 está relacionada com propagandas Q4 e Q7. Q4: Eu não compro produtos que são anunciados na televisão pois não acredito em propagandas;  Q7: As empresas desperdiçam muito dinheiro em propaganda. O peso da pergunta 4 é de 0.9, o da pergunta 6 é de 0.6. O PA3 são referentes as pessoas que buscam economia na hora da compra. O preço do produto tem o peso de 1 na hora da compra e se o produto tem disconto tem o peso de 0.6.Realizando o somatório do peso x entrada é possivel classificar uma nova pessoa em cada um dos PA e realizando um somatório das saidas do PA é possivel ter um fator de compra de cada pessoa. 
+# Analisando o grÃ¡fico Factor Analysis, Ã© possivel observar que as questÃµes q1, q3 e Q5 representa o primeiro PA1, sÃ£o as pessoas caseiras  q1-Eu prefiro passar uma noite calma e tranquila em casa do que sair para ir a umafesta; q3-A internet Ã© mais interessante que cinemas Q5: Eu gosto mesmo Ã© de ficar em casa. A questÃ£o 1 tem um peso de 0.9 para determinar se ele pertence ao PA1, a questÃ£o 3 tem peso de 0.8 e a questÃ£o 5 tem 0.7. . O PA2 estÃ¡ relacionada com propagandas Q4 e Q7. Q4: Eu nÃ£o compro produtos que sÃ£o anunciados na televisÃ£o pois nÃ£o acredito em propagandas;  Q7: As empresas desperdiÃ§am muito dinheiro em propaganda. O peso da pergunta 4 Ã© de 0.9, o da pergunta 6 Ã© de 0.6. O PA3 sÃ£o referentes as pessoas que buscam economia na hora da compra. O preÃ§o do produto tem o peso de 1 na hora da compra e se o produto tem disconto tem o peso de 0.6.Realizando o somatÃ³rio do peso x entrada Ã© possivel classificar uma nova pessoa em cada um dos PA e realizando um somatÃ³rio das saidas do PA Ã© possivel ter um fator de compra de cada pessoa. 
 ```{r}
 fa.diagram(tresfatores)
 ```
@@ -33,14 +33,14 @@ plot(hc)
 clusterCut <- cutree(hc, 3)
 rect.hclust(hc, k=3, border="red")
 clusplot(Crimes[,-1], clusterCut,
-         main='Represetação Gráfica 2D - Solução com 3 Clusters',
+         main='RepresetaÃ§Ã£o GrÃ¡fica 2D - SoluÃ§Ã£o com 3 Clusters',
          color=TRUE, shade=TRUE, labels=2, lines=0)
 Crimes$STATE <- clusterCut
 Grupo_ordenado <- Crimes[order(Crimes$STATE),]
 somente_grupo <- subset(Grupo_ordenado,select = c(STATE, VIOLENT))
 View(somente_grupo)
 ```
-## Ele criu 3 grupos. O primeiro grupo tem o perfil de cidade com ocorrências médias em todos os tipos. O segundo grupo com o maior número de ocorrências de crimes e o 3 grupos representa as cidades com baixas ocorrências de crimes. Explica 79;49%  da variabilidade dos dados. 
+## Ele criu 3 grupos. O primeiro grupo tem o perfil de cidade com ocorrÃªncias mÃ©dias em todos os tipos. O segundo grupo com o maior nÃºmero de ocorrÃªncias de crimes e o 3 grupos representa as cidades com baixas ocorrÃªncias de crimes. Explica 79;49%  da variabilidade dos dados. 
 
 
 ```{r}
@@ -50,7 +50,7 @@ plot(hc)
 clusterCut <- cutree(hc, 4)
 rect.hclust(hc, k=4, border="red")
 clusplot(Crimes[,-1], clusterCut,
-         main='Represetação Gráfica 2D - Solução com 4 Clusters',
+         main='RepresetaÃ§Ã£o GrÃ¡fica 2D - SoluÃ§Ã£o com 4 Clusters',
          color=TRUE, shade=TRUE, labels=2, lines=0)
 Crimes$STATE <- clusterCut
 Grupo_ordenado <- Crimes[order(Crimes$STATE),]
@@ -63,7 +63,7 @@ View(somente_grupo)
 clusterCut <- cutree(hc, 4)
 rect.hclust(hc, k=3, border="red")
 clusplot(Crimes[,-1], clusterCut,
-         main='Represetação Gráfica 2D - Solução com 3 Clusters',
+         main='RepresetaÃ§Ã£o GrÃ¡fica 2D - SoluÃ§Ã£o com 3 Clusters',
          color=TRUE, shade=TRUE, labels=2, lines=0)
 ```
 
