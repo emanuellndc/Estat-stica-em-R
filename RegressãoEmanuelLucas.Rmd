@@ -1,0 +1,56 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+install.packages("car")
+library(car)
+install.packages("PerformanceAnalytics")
+library("PerformanceAnalytics")
+library("MASS")
+Prestige
+
+```
+##    Criando o grafico de corelação
+```{r}
+Prestige_completo = Prestige
+Pristige_Numeric = Prestige[, -6]
+chart.Correlation(Pristige_Numeric)
+```
+##  Gráfico de correlação, educação tem muita relação com census. Retira a census pois -0.82 é menor que 0.85 que contém muita relação. Criando o ajuste com as variáveis.
+
+```{r}
+ajuste = lm(prestige ~ education + income + women, data = Pristige_Numeric)
+summary(ajuste)
+```
+##  R² baixo e uma women com o p-valor maior que 0,05. O vif pode comprovar a relação entre as variáveis. Aplicação do vif.
+
+
+```{r}
+vif(ajuste)
+```
+##  education income women 1.845165 2.282038 1.526593  valores < 3 ou 5. Ou seja, não existe muita relação entre as variáveis. Ainda existe o stepAIC para tentar encontrar o melhor modelo. Aplicando o stepAIC. 
+
+
+
+```{r}
+stepAIC(ajuste, direction = "both")  
+```
+## Criando um modelo com o resultado do stepAIC
+```{r}
+
+ajuste2 = lm(formula = prestige ~ education + income, data = Pristige_Numeric)
+summary(ajuste2)
+```
+
+## Todas as variáis com um p-valor < 0.05. Ok. R-squared:  0.798. Verificar os resíduos.
+
+
+```{r}
+par(mfrow=c(2,2))
+
+plot(ajuste2)
+```
+##  Normal Q_Q Liner - normal
+##  Residuls - Formato de Funil significa que seus dados não tem normalidade. Normalizar os dados 0,1 média 0.

@@ -1,0 +1,86 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+install.packages('psych')
+install.packages('GPArotation')
+library(psych)
+library(GPArotation)
+```
+# Quando a linha azul toca a linha vermelha, é o ponto que devemos utilizar para a escolha no númerro de fatores. No caso iremos utilizar 3 fatores.
+```{r}
+parallel <- fa.parallel(Home, fm = 'pa', fa = 'fa') #escolha do número de fatores
+tresfatores <- fa(Home, nfactors = 3, rotate = "oblimin", fm="pa")
+tresfatores
+```
+
+```{r}
+print(tresfatores$loadings, cutoff = .3)
+```
+# Analisando o gráfico Factor Analysis, é possivel observar que as questões q1, q3 e Q5 representa o primeiro PA1, são as pessoas caseiras  q1-Eu prefiro passar uma noite calma e tranquila em casa do que sair para ir a umafesta; q3-A internet é mais interessante que cinemas Q5: Eu gosto mesmo é de ficar em casa. A questão 1 tem um peso de 0.9 para determinar se ele pertence ao PA1, a questão 3 tem peso de 0.8 e a questão 5 tem 0.7. . O PA2 está relacionada com propagandas Q4 e Q7. Q4: Eu não compro produtos que são anunciados na televisão pois não acredito em propagandas;  Q7: As empresas desperdiçam muito dinheiro em propaganda. O peso da pergunta 4 é de 0.9, o da pergunta 6 é de 0.6. O PA3 são referentes as pessoas que buscam economia na hora da compra. O preço do produto tem o peso de 1 na hora da compra e se o produto tem disconto tem o peso de 0.6.Realizando o somatório do peso x entrada é possivel classificar uma nova pessoa em cada um dos PA e realizando um somatório das saidas do PA é possivel ter um fator de compra de cada pessoa. 
+```{r}
+fa.diagram(tresfatores)
+```
+```{r}
+install.packages("cluster")
+library(cluster)
+```
+```{r}
+hc <- hclust(dist(Crimes[,-1]), method = 'average') 
+plot(hc)
+clusterCut <- cutree(hc, 3)
+rect.hclust(hc, k=3, border="red")
+clusplot(Crimes[,-1], clusterCut,
+         main='Represetação Gráfica 2D - Solução com 3 Clusters',
+         color=TRUE, shade=TRUE, labels=2, lines=0)
+Crimes$STATE <- clusterCut
+Grupo_ordenado <- Crimes[order(Crimes$STATE),]
+somente_grupo <- subset(Grupo_ordenado,select = c(STATE, VIOLENT))
+View(somente_grupo)
+```
+## Ele criu 3 grupos. O primeiro grupo tem o perfil de cidade com ocorrências médias em todos os tipos. O segundo grupo com o maior número de ocorrências de crimes e o 3 grupos representa as cidades com baixas ocorrências de crimes. Explica 79;49%  da variabilidade dos dados. 
+
+
+```{r}
+
+hc <- hclust(dist(Crimes[,-1]), method = 'average') 
+plot(hc)
+clusterCut <- cutree(hc, 4)
+rect.hclust(hc, k=4, border="red")
+clusplot(Crimes[,-1], clusterCut,
+         main='Represetação Gráfica 2D - Solução com 4 Clusters',
+         color=TRUE, shade=TRUE, labels=2, lines=0)
+Crimes$STATE <- clusterCut
+Grupo_ordenado <- Crimes[order(Crimes$STATE),]
+somente_grupo <- subset(Grupo_ordenado,select = c(STATE, VIOLENT))
+View(somente_grupo)
+```
+## Com 4 Clusters o 3 grupo fica "embolado" com o segundo grupo. Gostei do Clusters com 3 grupos.
+
+```{r}
+clusterCut <- cutree(hc, 4)
+rect.hclust(hc, k=3, border="red")
+clusplot(Crimes[,-1], clusterCut,
+         main='Represetação Gráfica 2D - Solução com 3 Clusters',
+         color=TRUE, shade=TRUE, labels=2, lines=0)
+```
+
+```{r}
+require(MASS)
+install.packages("klaR")
+library(klaR)
+```
+
+```{r}
+ajuste <- lda(Lobos$Grupo ~ Lobos$X1 + Lobos$X2 + Lobos$X3 + Lobos$X4 + Lobos$X5 + Lobos$X6 + Lobos$X7 + Lobos$X8 + Lobos$X9)
+ajuste
+```
+```{r}
+plot(ajuste, col = as.integer(Lobos$Grupo), cex = 1.5)
+```
+
+
+## Analisando a tabela dos dados, 125; 104; 145; 81,1; 33,2; 68,2; 49,0; 43,3; 18,2 Pertence ao grupos macho das montanhas.
+

@@ -1,0 +1,47 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+## Instalando os pacotes e criando o grafico de corelação entre as variáveis. 
+```{r}
+attach(birthweight)
+install.packages("PerformanceAnalytics")
+library(PerformanceAnalytics)
+birthweight_Numeric <- birthweight
+chart.Correlation(birthweight_Numeric)
+```
+## Analisando o gráfico de correlação é possivel observar  que algumas variáveis são autoexplicativas e que possuem uma correlação muito baixa com a variável preditora. As variáveis escolhidas para o primeiro modelo são: (headcirumference+factor(smoker)+motherage+fedyrs+fnocig+mppwt)
+
+## criando um modelo com as variáveis selecionadas
+```{r}
+ajuste <- glm(lowbwt~ headcirumference+factor(smoker)+motherage+fedyrs+fnocig+mppwt, family = binomial(), data=birthweight)
+ajuste
+summary(ajuste)
+```
+
+##  AIC de 25.19. Criar outro modelo para verificar se existe um outro com AIC menor. Para isso, será utilizado o stepAIC e VIF.
+
+
+```{r}
+install.packages("car")
+library(car)
+vif(ajuste)
+install.packages("MASS")
+library(MASS)
+stepAIC(ajuste, direction = "both")
+```
+
+##Realizando uma analise, foi encontrado um AIC menor que 25.19. Será utilizado o modelo sugerido com Aic de 20.98. Todas as variáveis do VIF menor que 5. Ou seja, não existe muitas corelação entre elas. Fazendo um novo ajuste com o as variáveis que foi sugerida.
+
+
+```{r}
+ajuste2 <-glm(lowbwt~headcirumference + fnocig + mppwt, family = binomial(), data=birthweight)
+summary(ajuste2)
+vif(ajuste2)
+stepAIC(ajuste2, direction = "both")
+par(mfrow=c(2,2))
+plot(ajuste2)
+
+
+```
+
